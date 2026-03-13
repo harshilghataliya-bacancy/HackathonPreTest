@@ -12,7 +12,6 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Power,
   Download,
 } from "lucide-react";
 
@@ -49,29 +48,11 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const [examOpen, setExamOpen] = useState(false);
-  const [toggling, setToggling] = useState(false);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [scoreFilter, setScoreFilter] = useState<ScoreFilter>("all");
   const [attemptFilter, setAttemptFilter] = useState<AttemptFilter>("all");
 
-  const toggleExam = async () => {
-    setToggling(true);
-    const res = await fetch("/api/exam-config", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ examOpen: !examOpen }),
-    });
-    const data = await res.json();
-    setExamOpen(data.examOpen);
-    setToggling(false);
-  };
-
   useEffect(() => {
-    fetch("/api/exam-config")
-      .then((res) => res.json())
-      .then((data) => setExamOpen(data.examOpen));
-
     fetch("/api/admin/users")
       .then((res) => res.json())
       .then((data) => {
@@ -170,34 +151,6 @@ export default function AdminPage() {
       </nav>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Exam Toggle */}
-        <div className={`rounded-2xl border p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${examOpen ? 'bg-green-500/10 border-green-500/20' : 'bg-white/5 border-white/10'}`}>
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${examOpen ? 'bg-green-500/20' : 'bg-white/10'}`}>
-              <Power className={`w-6 h-6 ${examOpen ? 'text-green-400' : 'text-gray-500'}`} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-white">
-                Exam Status: {examOpen ? 'OPEN' : 'CLOSED'}
-              </h3>
-              <p className="text-sm text-gray-400">
-                {examOpen ? 'Users can take the exam now' : 'Users cannot access the exam'}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={toggleExam}
-            disabled={toggling}
-            className={`px-6 py-2.5 rounded-xl font-medium text-sm transition-all disabled:opacity-50 ${
-              examOpen
-                ? 'bg-red-500/80 text-white hover:bg-red-500'
-                : 'bg-green-500/80 text-white hover:bg-green-500'
-            }`}
-          >
-            {toggling ? 'Updating...' : examOpen ? 'Close Exam' : 'Start Exam'}
-          </button>
-        </div>
-
         {/* Stats cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
