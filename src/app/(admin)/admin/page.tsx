@@ -15,6 +15,7 @@ import {
   Clock,
   Power,
   Filter,
+  Download,
 } from "lucide-react";
 
 interface AttemptData {
@@ -109,6 +110,28 @@ export default function AdminPage() {
   const attemptedUsers = users.filter((u) => u.totalAttempts > 0).length;
 
   const activeFilters = (statusFilter !== "all" ? 1 : 0) + (scoreFilter !== "all" ? 1 : 0) + (attemptFilter !== "all" ? 1 : 0);
+
+  const downloadCSV = () => {
+    const headers = ["Name", "Email", "Role", "Total Attempts", "Best Score", "Total Questions", "Status", "Last Attempt"];
+    const rows = filteredUsers.map((u) => [
+      u.name,
+      u.email,
+      u.role,
+      u.totalAttempts,
+      u.totalAttempts > 0 ? u.bestScore : "",
+      u.totalAttempts > 0 ? u.totalQuestions : "",
+      u.passed ? "Passed" : u.totalAttempts > 0 ? "In Progress" : "Not Started",
+      u.lastAttemptAt ? new Date(u.lastAttemptAt).toLocaleString() : "",
+    ]);
+    const csv = [headers, ...rows].map((row) => row.map((v) => `"${v}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `exam-results-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   if (loading) {
     return (
@@ -207,14 +230,23 @@ export default function AdminPage() {
         </div>
 
         {/* Search & Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Search by name or email..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 sm:max-w-80 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-          />
+        <div className="flex flex-col gap-3 mb-6">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              placeholder="Search by name or email..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            />
+            <button
+              onClick={downloadCSV}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-medium hover:bg-cyan-500/30 transition-colors whitespace-nowrap"
+            >
+              <Download size={16} />
+              Export CSV
+            </button>
+          </div>
 
           <div className="flex flex-wrap gap-2">
             {/* Status Filter */}
