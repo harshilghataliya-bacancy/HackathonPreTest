@@ -12,8 +12,7 @@ export async function POST(req: NextRequest) {
   const { answers } = await req.json();
   // answers is { [questionId]: "optionA" | "optionB" | "optionC" | "optionD" }
 
-  // TODO: Remove .slice(0, 5) after testing — grade all questions for production
-  const questions = getQuestions().slice(0, 5);
+  const questions = getQuestions();
   let correctCount = 0;
   const incorrectQuestions: { id: number; question: string }[] = [];
 
