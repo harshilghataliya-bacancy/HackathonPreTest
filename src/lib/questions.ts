@@ -63,5 +63,5 @@ function parseCSVLine(line: string): string[] {
 
 // Get questions without answers (for client)
 export function getQuestionsForClient(): Omit<Question, "answer">[] {
-  return getQuestions().map(({ answer, ...q }) => q);
+  return getQuestions().map(({ answer: _answer, ...q }) => q);
 }

@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, LogOut, ChevronLeft, ChevronRight, Send, RotateCcw, Trophy, XCircle, CheckCircle, Lock } from "lucide-react";
+import { LogOut, ChevronLeft, ChevronRight, Send, RotateCcw, Trophy, XCircle, Lock } from "lucide-react";
 
 interface Question {
   id: number;

@@ -3,7 +3,6 @@
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
-  Shield,
   LogOut,
   Users,
   Trophy,
@@ -14,7 +13,6 @@ import {
   XCircle,
   Clock,
   Power,
-  Filter,
   Download,
 } from "lucide-react";
 
@@ -229,75 +227,69 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Search & Filters */}
-        <div className="flex flex-col gap-3 mb-6">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="text"
-              placeholder="Search by name or email..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-            />
+        {/* Search, Filters & Export */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 min-w-[200px] px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+          />
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+            className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
+          >
+            <option value="all" className="bg-[#1a1b20] text-white">All Status</option>
+            <option value="passed" className="bg-[#1a1b20] text-white">Passed</option>
+            <option value="in_progress" className="bg-[#1a1b20] text-white">In Progress</option>
+            <option value="not_started" className="bg-[#1a1b20] text-white">Not Started</option>
+          </select>
+
+          <select
+            value={scoreFilter}
+            onChange={(e) => setScoreFilter(e.target.value as ScoreFilter)}
+            className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
+          >
+            <option value="all" className="bg-[#1a1b20] text-white">All Scores</option>
+            <option value="perfect" className="bg-[#1a1b20] text-white">Perfect Score</option>
+            <option value="above_half" className="bg-[#1a1b20] text-white">Above 50%</option>
+            <option value="below_half" className="bg-[#1a1b20] text-white">Below 50%</option>
+          </select>
+
+          <select
+            value={attemptFilter}
+            onChange={(e) => setAttemptFilter(e.target.value as AttemptFilter)}
+            className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
+          >
+            <option value="all" className="bg-[#1a1b20] text-white">All Attempts</option>
+            <option value="0" className="bg-[#1a1b20] text-white">0 Attempts</option>
+            <option value="1-3" className="bg-[#1a1b20] text-white">1-3 Attempts</option>
+            <option value="4+" className="bg-[#1a1b20] text-white">4+ Attempts</option>
+          </select>
+
+          {activeFilters > 0 && (
             <button
-              onClick={downloadCSV}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-medium hover:bg-cyan-500/30 transition-colors whitespace-nowrap"
+              onClick={() => {
+                setStatusFilter("all");
+                setScoreFilter("all");
+                setAttemptFilter("all");
+              }}
+              className="px-3 py-2.5 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm hover:bg-red-500/20 transition-colors"
             >
-              <Download size={16} />
-              Export CSV
+              Clear ({activeFilters})
             </button>
-          </div>
+          )}
 
-          <div className="flex flex-wrap gap-2">
-            {/* Status Filter */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-              className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            >
-              <option value="all" className="bg-[#1a1b20] text-white">All Status</option>
-              <option value="passed" className="bg-[#1a1b20] text-white">Passed</option>
-              <option value="in_progress" className="bg-[#1a1b20] text-white">In Progress</option>
-              <option value="not_started" className="bg-[#1a1b20] text-white">Not Started</option>
-            </select>
-
-            {/* Score Filter */}
-            <select
-              value={scoreFilter}
-              onChange={(e) => setScoreFilter(e.target.value as ScoreFilter)}
-              className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            >
-              <option value="all" className="bg-[#1a1b20] text-white">All Scores</option>
-              <option value="perfect" className="bg-[#1a1b20] text-white">Perfect Score</option>
-              <option value="above_half" className="bg-[#1a1b20] text-white">Above 50%</option>
-              <option value="below_half" className="bg-[#1a1b20] text-white">Below 50%</option>
-            </select>
-
-            {/* Attempt Filter */}
-            <select
-              value={attemptFilter}
-              onChange={(e) => setAttemptFilter(e.target.value as AttemptFilter)}
-              className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            >
-              <option value="all" className="bg-[#1a1b20] text-white">All Attempts</option>
-              <option value="0" className="bg-[#1a1b20] text-white">0 Attempts</option>
-              <option value="1-3" className="bg-[#1a1b20] text-white">1-3 Attempts</option>
-              <option value="4+" className="bg-[#1a1b20] text-white">4+ Attempts</option>
-            </select>
-
-            {activeFilters > 0 && (
-              <button
-                onClick={() => {
-                  setStatusFilter("all");
-                  setScoreFilter("all");
-                  setAttemptFilter("all");
-                }}
-                className="px-3 py-2.5 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm hover:bg-red-500/20 transition-colors"
-              >
-                Clear ({activeFilters})
-              </button>
-            )}
-          </div>
+          <button
+            onClick={downloadCSV}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-medium hover:bg-cyan-500/30 transition-colors whitespace-nowrap"
+          >
+            <Download size={16} />
+            Export CSV
+          </button>
         </div>
 
         {/* Results count */}

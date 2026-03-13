@@ -9,7 +9,6 @@ import {
   Calendar,
   MapPin,
   Clock,
-  Cpu,
   Database,
   Globe,
   Terminal,
@@ -178,13 +177,16 @@ export default function DashboardPage() {
 
       {/* Scroll down indicator — hides after scroll */}
       <div
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-1 pointer-events-none transition-opacity duration-500"
+        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-500"
         style={{ opacity: scrolled ? 0 : 1 }}
       >
-        <span className="text-white/40 text-[10px] tracking-[0.15em] uppercase">
+        <span className="text-white text-xs font-medium tracking-[0.2em] uppercase px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
           Scroll down to start exam
         </span>
-        <ChevronDown size={16} className="text-cyan-400/60" />
+        <div className="flex flex-col items-center animate-bounce">
+          <ChevronDown size={20} className="text-cyan-400" />
+          <ChevronDown size={20} className="text-cyan-400/50 -mt-3" />
+        </div>
       </div>
 
       {/* Hero scroll animation */}
@@ -199,7 +201,7 @@ export default function DashboardPage() {
           </>
         }
         mediaType="image"
-        media="https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?w=1920&q=80"
+        media="/ai-mahakurukshetra.svg"
         overlay={{
           caption: "HACKATHON • 2026",
           heading: "The Ultimate AI Battle Begins",
@@ -352,7 +354,7 @@ export default function DashboardPage() {
                   "You must score 100% to pass and earn your certificate",
                   "Incorrect questions will be shown, but NOT the correct answers",
                   "You can retake the exam unlimited times until you pass",
-                  "Once passed, you will receive a completion certificate",
+                  "Once passed, you will receive a completion certificate and attend the hackathon",
                 ].map((rule, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle
