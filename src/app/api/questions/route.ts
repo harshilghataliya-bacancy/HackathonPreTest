@@ -8,7 +8,6 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // TODO: Remove .slice(0, 5) after testing — return all questions for production
-  const questions = getQuestionsForClient().slice(0, 5);
+  const questions = getQuestionsForClient();
   return NextResponse.json(questions);
 }
