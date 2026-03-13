@@ -337,7 +337,7 @@ export default function ExamPage() {
             {result.incorrectQuestions.length > 0 && (
               <div>
                 <h3 className="font-semibold text-white mb-3">
-                  Incorrect Questions:
+                  Wrong Answers:
                 </h3>
                 <div className="space-y-2">
                   {result.incorrectQuestions.map((q, i) => (
