@@ -170,21 +170,19 @@ export default function CertificatePage() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-center gap-16 mt-8 pt-8 border-t border-white/10 print:mt-4 print:pt-4">
+                <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/10 print:mt-4 print:pt-4">
                   <div className="text-center">
-                    <img
-                      src="/bacancy-logo.png"
-                      alt="Bacancy"
-                      className="w-8 h-8 mx-auto mb-1 opacity-60"
-                    />
-                    <p className="font-semibold text-white">
-                      Bacancy Technology
-                    </p>
-                    <p className="text-sm text-gray-600">Organization</p>
+                    <p className="font-semibold text-white">Mehul Budasna</p>
+                    <p className="text-sm text-gray-600">Approved By</p>
                   </div>
                   <div className="text-center">
                     <p className="font-semibold text-white">{completedDate}</p>
                     <p className="text-sm text-gray-600">Date of Completion</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="font-semibold text-white">Chandresh Patel</p>
+                    <p className="font-semibold text-white">Binal Patel</p>
+                    <p className="text-sm text-gray-600">Organized By</p>
                   </div>
                 </div>
               </div>
