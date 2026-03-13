@@ -18,6 +18,7 @@ import {
   CheckCircle,
   Lock,
   ChevronDown,
+  Shield,
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -145,6 +146,15 @@ export default function DashboardPage() {
           </span>
         </div>
         <div className="flex items-center gap-4">
+          {session?.user?.role === "ADMIN" && (
+            <a
+              href="/admin"
+              className="flex items-center gap-1.5 text-xs font-medium text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-3 py-1.5 rounded-full hover:bg-cyan-400/20 transition-colors"
+            >
+              <Shield size={13} />
+              Admin Panel
+            </a>
+          )}
           {alreadyPassed && (
             <a
               href="/certificate"
