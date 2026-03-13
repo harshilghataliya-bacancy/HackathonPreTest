@@ -182,7 +182,7 @@ export default function CertificatePage() {
                   <div className="text-center">
                     <p className="font-semibold text-white">Chandresh Patel</p>
                     <p className="font-semibold text-white">Binal Patel</p>
-                    <p className="text-sm text-gray-600">Organized By</p>
+                    <p className="text-sm text-gray-600">Director</p>
                   </div>
                 </div>
               </div>
